@@ -1,0 +1,44 @@
+{
+  "name": "tea-rest-with-elastic",
+  "version": "5.0.0",
+  "description": "a plugin for elastic search in open rest framework",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^5.6.20",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "codecov": "^1.0.1",
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "mocha": "^3.0.2",
+    "nyc": "^10.0.0",
+    "open-rest": "^8.0.3",
+    "prettier": "^1.16.4"
+  },
+  "scripts": {
+    "_test": "mocha",
+    "test": "export NODE_ENV=test && nyc --reporter=lcov --reporter=text-summary npm run _test",
+    "lint": "eslint {./index.js,./lib} && echo '\u001b[32m\u001b[1mEslint validate success.\u001b[22m\u001b[39m'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tea-node/tea-rest-with-elastic.git"
+  },
+  "keywords": [
+    "elasticsearch"
+  ],
+  "author": "Jason Bai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tea-node/tea-rest-with-elastic/issues"
+  },
+  "homepage": "https://github.com/tea-node/tea-rest-with-elastic#readme"
+}
