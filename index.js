@@ -1,21 +1,13 @@
-const ElasticSearch = require('@elastic/elasticsearch');
-const model = require('./lib/model');
+const list = require('./helper/list');
+const beforeAdd = require('./helper/before-add');
+const add = require('./helper/add');
 
-const Init = (rest, path) => {
-  const { elastic } = rest.utils.require(`${path}/configs`) || {};
+module.exports = (rest) => {
+  rest.helper.elastic = {
+    list: list(rest),
+    beforeAdd: beforeAdd(rest),
+    add: add(rest),
+  };
 
-  /** 释放 ElasticSearch 和 Client */
-  rest.ElasticSearch = ElasticSearch;
-
-  /**
-    * model 的 初始化
-    * 将获取Model类的方法注册到rest.utils上
-    */
-  rest.utils.elastic = model(elastic, path, rest);
-
-  return rest.utils.elastic;
+  return rest.helper.elastic;
 };
-
-Init.ElasticSearch = ElasticSearch;
-
-module.exports = Init;
