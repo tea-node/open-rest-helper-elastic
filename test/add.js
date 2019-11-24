@@ -131,5 +131,92 @@ describe('open-rest-helper-elastic-add', () => {
         }
       });
     });
+
+    it('normal cols set, hook unset', (done) => {
+      const add = helper.add(Model, ['name', 'age'], null, { address: 'hooks.address' });
+
+      const req = {
+        hooks: {
+          address: '北京市昌平区',
+        },
+        params: {
+          id: 99,
+          name: 'Jason Bai',
+          age: 36,
+        },
+      };
+
+      const res = {
+        send(statusCode, data) {
+          assert.equal(201, statusCode);
+          assert.deepEqual({
+            id: 1,
+            name: 'Jason Bai',
+            age: 36,
+            address: '北京市昌平区',
+          }, data);
+        },
+      };
+
+      add(req, res, (error) => {
+        try {
+          assert.equal(null, error);
+
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+
+    it('Has error when beforeAdd', (done) => {
+      const add = helper.add(Model, ['name', 'age'], null, { address: 'hooks.address' });
+
+      const req = {
+        hooks: {
+          address: '北京市昌平区',
+        },
+        params: {
+          id: 99,
+          name: 'Jason Bai',
+          age: 36,
+        },
+      };
+
+      const res = {
+        send(statusCode, data) {
+          assert.equal(201, statusCode);
+          assert.deepEqual({
+            id: 1,
+            name: 'Jason Bai',
+            age: 36,
+            address: '北京市昌平区',
+          }, data);
+        },
+      };
+
+      Model.build = attrs => (
+        _.extend({}, attrs, {
+          save() {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                reject(Error('Hello world'));
+              }, 10);
+            });
+          },
+        })
+      );
+
+      add(req, res, (error) => {
+        try {
+          assert.equal('Hello world', error.message);
+          assert.ok(error instanceof Error);
+
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
   });
 });
