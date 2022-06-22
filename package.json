@@ -8,7 +8,7 @@
     "test": "test"
   },
   "dependencies": {
-    "async": "^3.1.0",
+    "async": "^3.2.2",
     "func-delegate": "^0.3.1",
     "lodash": "^4.17.15"
   },
